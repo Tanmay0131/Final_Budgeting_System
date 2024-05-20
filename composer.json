@@ -1,0 +1,25 @@
+{
+    "name": "jklins/microsoft-login-test",
+    "type": "project",
+    "require": {
+        "microsoft/kiota-abstractions": "^0.8.5",
+        "symfony/http-client": "^6.3",
+        "nyholm/psr7": "^1.8",
+        "guzzlehttp/promises": "^2.0",
+        "php-http/httplug": "^2.4",
+        "microsoft/kiota-http-guzzle": "^0.8.4",
+        "microsoft/kiota-authentication-phpleague": "^0.8.3",
+        "microsoft/kiota-serialization-json": "^0.6.0",
+        "microsoft/kiota-serialization-text": "^0.7.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "GetUser\\Client\\": "client/"
+        }
+    }
+}

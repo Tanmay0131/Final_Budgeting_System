@@ -1,0 +1,32 @@
+{
+  "descriptionHash": "126B1DCD90D419BD411E85DB2452D7D395405237ACF715ECB02992FB92848451D51D4254758E106D7281F10FCEA55629636227F3DC5AFB2550A04CB944BD6EE1",
+  "descriptionLocation": "C:\\xampp\\htdocs\\MicrosoftLoginTest\\get-me.yml",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "1.7.0",
+  "clientClassName": "GraphApiClient",
+  "clientNamespaceName": "GetUser\\Client",
+  "language": "PHP",
+  "usesBackingStore": false,
+  "excludeBackwardCompatible": false,
+  "includeAdditionalData": true,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "text/plain",
+    "application/x-www-form-urlencoded",
+    "multipart/form-data"
+  ],
+  "includePatterns": [],
+  "excludePatterns": [],
+  "disabledValidationRules": []
+}

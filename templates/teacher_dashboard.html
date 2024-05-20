@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #181818;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #00BFFF;
+        }
+
+        #userDetails {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #444;
+            min-width: 200px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #00BFFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #00BFFF;
+        }
+
+        .plus-icon {
+            margin-right: 5px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .request-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #666;
+            border-radius: 10px;
+            background-color: #222;
+        }
+
+        .request-item p {
+            margin: 5px 0;
+        }
+
+        .edit-remove-options {
+            margin-top: 10px;
+            display: flex; /* Added to make the buttons inline */
+        }
+
+        .edit-remove-options a,
+        .edit-remove-options button {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #00BFFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .edit-remove-options a:hover,
+        .edit-remove-options button:hover {
+            background-color: #00BFFF;
+        }
+
+
+        /* Sort dropdown */
+        .sort-dropdown {
+            float: right;
+        }
+
+        /* Hide by default */
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teacher Dashboard</h1>
+    <div id="userDetails">
+        {% if user %}
+            <div class="dropdown">
+                <span>{{ user['name'] }}</span>
+                <div class="dropdown-content">
+                    <p><strong>Email:</strong> {{ user['email'] }}</p>
+                    <p><strong>Role:</strong> {{ user['role2'] }}</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                {% if user['role2'] == 'admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="button">Go To Admin</a>
+                {% endif %}
+                <br><br>
+                <a href="{{ url_for('edit_lab') }}" class="button">Request To Change Labs</a>
+                <br><br>
+                {% if user['role2'] != 'admin' %}
+                    <a href="{{ url_for('request_role_change') }}" class="button">Request To Be An Admin</a>
+                {% endif %}
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{{ url_for('create_request') }}" class="button plus-icon">+</a>
+                Create a Request
+            </div>
+            <h2>Your Requests:
+                <select class="sort-dropdown" id="stateFilter" onchange="filterRequests(this.value)">
+                    <option value="all">All</option>
+                    <option value="Submitted">Submitted</option>
+                    <option value="Returned">Returned</option>
+                    <option value="Denied">Denied</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </h2>
+            <div class="requests">
+                {% for request in user.user_requests %}
+                    {% if request['User_Id'] == user['user_id'] %}
+                        <div class="request-item {{ request['State'] }}">
+                            <p><strong>Request ID:</strong> {{ request['Id'] }}</p>
+                            <p><strong>Description:</strong> {{ request['Description'] }}</p>
+                            <p><strong>Requested Date:</strong> {{ request['Requested_Date'] }}</p>
+                            <p><strong>Unit Price:</strong> {{ request['Unit_Price'] }}</p>
+                            <p><strong>Quantity:</strong> {{ request['Quantity'] }}</p>
+                            <p><strong>OAC Recommended Date:</strong> {{ request['OAC_Recommended_Date'] }}</p>
+
+                            <!-- Display the State -->
+                            <p><strong>State:</strong> {{ request['State'] }}</p>
+
+                            <!-- Display comments -->
+                            <p><strong>Comments:</strong></p>
+                            <ul>
+                                {% for comment in request['Comments'] %}
+                                    <li>{{ comment }}</li>
+                                {% endfor %}
+                            </ul>
+
+                            <p><strong>Additional Notes:</strong> {{ request['Additional_Notes'] }}</p>
+
+                            <!-- Edit and Remove options -->
+                            <div class="edit-remove-options">
+                                <a href="{{ url_for('edit_request', request_id=request['Id']) }}" class="button">Edit</a>
+                                <form action="{{ url_for('remove_request', request_id=request['Id']) }}" method="POST">
+                                    <button type="submit" class="button">Remove</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if not user.user_requests %}
+                    <p class="mt-3">No requests found.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>User details not found</p>
+        {% endif %}
+    </div>
+
+    <script>
+         function filterRequests(state) {
+            $('.request-item').show();
+            $.each($('.request-item'), function(){
+                if($(this).hasClass($('#stateFilter').val()) || state == "all"){
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            })          
+          
+        }
+    </script>
+    
+    
+</body>
+</html>

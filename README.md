@@ -1,0 +1,2 @@
+Mostly just followed along with this tutorial [https://learn.microsoft.com/en-us/openapi/kiota/tutorials/php-azure?tabs=portal](https://learn.microsoft.com/en-us/openapi/kiota/tutorials/php-azure?tabs=portal) 
+Note: There is a part that hits a common endpoint to get a code to be used. Based on the settings from when the app was set up in the MS Admin Center (when you create the keys/secrets etc), the common endpoint may need changed to the tenant id. 

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        /* CSS for Admin Dashboard */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #181818;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #00BFFF;
+        }
+
+        #userDetails {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 2%;
+            padding-left: 2%;
+            padding-right: 2%;
+            padding-bottom: 2%;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #444;
+            min-width: 200px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #00BFFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #00BFFF;
+        }
+
+        .plus-icon {
+            margin-right: 5px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .request-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .request {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #666;
+            border-radius: 10px;
+            background-color: #222;
+        }
+
+        .request p {
+            margin: 5px 0;
+        }
+
+        form {
+            margin-top: 10px;
+        }
+
+        form label {
+            color: #00BFFF;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        form select,
+        form textarea,
+        form input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+
+        form input[type="submit"] {
+            cursor: pointer;
+            background-color: #00BFFF;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #0080FF;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #666;
+            margin: 20px 0;
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #00BFFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #0080FF;
+        }
+
+        /* Adjusting specific buttons */
+        a.button.left-aligned {
+            margin-top: 20px;
+            display: inline-block; /* Make inline to be left-aligned */
+        }
+
+        a.button.left-aligned:hover {
+            background-color: #0080FF;
+        }
+
+        a {
+            color: #00BFFF;
+            text-decoration: none;
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        a:hover {
+            color: #0080FF;
+        }
+
+        /* Center the button */
+        .centered-button {
+            text-align: center;
+        }
+        #userLinks{
+            float: right;
+            padding-right: 3%;
+        }
+        .request-container{
+            padding-top: 1%;
+            padding-left: 2%;
+            padding-right: 2%;
+            padding-bottom: 2%;
+        }
+        .sort-dropdown {
+            float: right;
+        }
+        .hide {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="userLinks">
+       
+        <a href="{{ url_for('logout') }}" class="button left-aligned">Logout</a>
+    </div>
+    <br>
+    
+    <h1>Admin Dashboard</h1>
+    <div id="userDetails">
+        {% if user %}
+            <div class="dropdown">
+                <span>{{ user['name'] }}</span>
+                <div class="dropdown-content">
+                    <p><strong>Email:</strong> {{ user['email'] }}</p>
+                    <p><strong>Role:</strong> {{ user['role'] }}</p>
+                </div>
+            </div>
+            <div class="centered-button">
+                <a href="{{ url_for('teacher_dashboard') }}" class="button">Go to Teacher Dashboard</a>
+                <br>
+                <a href="{{ url_for('completed_requests_table') }}" class="button">View Completed Requests</a>
+                <br>
+                <a href="{{ url_for('lab_requests') }}" class="button">Review Lab Change Requests</a>
+                <br>
+                <a href="{{ url_for('review_role_change_requests') }}" class="button">Review Role Change Requests</a>
+                <br>
+            </div>
+        {% else %}
+            <p>User details not found</p>
+        {% endif %}
+    </div>
+
+    
+
+
+    <div class="request-container">
+        <div id="requestList">
+            <h2>Requests:
+                <select class="sort-dropdown" id="stateFilter" onchange="filterRequests(this.value)">
+                    <option value="all">All</option>
+                    {% for lab in labs %}1`
+                        <option value="{{ lab }}">{{ lab }}</option>
+                    {% endfor %}
+                </select>
+
+            </h2>
+            <!-- <h2>Requests</h2> -->
+            {% for request in requests %}
+            <div class="request " data-lab_display_name="{{ request['lab_display_name'] }}">
+                <div class="{{ request['lab_display_name'] }}" >
+                    <!-- <p><strong>Lab:</strong> <span class="request-lab">{{ user['lab_display_name'] }}</span></p> -->
+                    <!-- <p><strong>Lab:</strong> {{ lab_lookup.get(request['Lab_Id'], 'Unknown') }}</p> -->
+                    <p><strong>Lab:</strong> {{ request['lab_display_name'] }}</p>
+                    <p><strong>Requested By:</strong> {{ request['name'] }}</p>
+                    <p><strong>Requested Date:</strong> {{ request['Requested_Date'] }}</p>
+                    <p><strong>Description:</strong> {{ request['Description'] }}</p>
+                    <p><strong>Unit Price:</strong> {{ request['Unit_Price'] }}</p>
+                    <p><strong>Quantity:</strong> {{ request['Quantity'] }}</p>
+                    <p><strong>Request Type:</strong> {{ request['Request_Type'] }}</p>
+                    <p><strong>State:</strong> {{ request['State'] }}</p>
+                    <p><strong>Additional Notes:</strong> {{ request['Additional_Notes'] }}</p>
+                    
+                    <form action="{{ url_for('process_request', request_id=request['Id']) }}" method="post">
+                        <label for="action">Action:</label>
+                        <select name="action" id="action">
+                            <option value="approve">Approve with comments</option>
+                            <option value="deny">Deny with reason</option>
+                            <option value="return">Return to teacher and ask for more details</option>
+                        </select>
+                        <label for="comments">Comments:</label>
+                        <textarea name="comments" id="comments" rows="3"></textarea>
+                        <input type="submit" value="Submit"> 
+                    </form>
+                </div>
+                <hr>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <script>
+        function filterRequests(state) {
+            $('.request').show();
+            $('.request').each(function() {
+                var labName = $(this).data('lab_display_name');
+                labName = labName.trim().toLowerCase();
+                state = state.toLowerCase();
+                if (state === "all" || labName === state) {
+                    //do nothing
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    </script>
+    
+
+
+</body>
+</html>

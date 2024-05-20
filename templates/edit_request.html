@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #181818;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #00BFFF;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            color: #00BFFF;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+
+        input[type="submit"] {
+            cursor: pointer;
+            background-color: #00BFFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0080FF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Request</h1>
+    <form action="/edit_request/{{ request['Id'] }}" method="POST">
+        <label for="lab_id">Lab: </label>
+        {{ lab_display_name.display_name }}
+        <br><br>
+        <!-- <select id="lab_id" name="lab_id">
+            {% for lab in labs %}
+                <option value="{{ lab.Id }}" {% if lab.Id == request['Lab_Id'] %} selected {% endif %}>{{ lab.display_name }}</option>
+            {% endfor %}
+        </select><br><br> -->
+
+        <label for="requested_date">Requested Date:</label>
+        <input type="date" id="requested_date" name="requested_date" value="{{ request['Requested_Date'] }}"><br><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" cols="50">{{ request['Description'] }}</textarea><br><br>
+
+        <label for="unit_price">Unit Price:</label>
+        <input type="text" id="unit_price" name="unit_price" value="{{ request['Unit_Price'] }}"><br><br>
+
+        <label for="quantity">Quantity:</label>
+        <input type="text" id="quantity" name="quantity" value="{{ request['Quantity'] }}"><br><br>
+
+        <label for="oac_recommended_date">OAC Recommended Date:</label>
+        <input type="date" id="oac_recommended_date" name="oac_recommended_date" value="{{ request['OAC_Recommended_Date'] }}"><br><br>
+
+        <label for="request_type_id">Request Type:</label>
+        <select id="request_type_id" name="request_type_id">
+            {% for request_type in request_types %}
+                <option value="{{ request_type.Id }}" {% if request_type.Id == request['Request_Type_Id'] %} selected {% endif %}>{{ request_type.Display }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="additional_notes">Additional Notes:</label>
+        <textarea id="additional_notes" name="additional_notes" rows="4" cols="50">{{ request['Additional_Notes'] }}</textarea><br><br>
+
+        <input type="submit" value="Update">
+    </form>
+</body>
+</html>
+
+
+
+
+

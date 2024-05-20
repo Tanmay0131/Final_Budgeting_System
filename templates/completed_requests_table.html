@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completed Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #181818;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #00BFFF;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 1px solid #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #fff;
+        }
+
+        th {
+            background-color: #00BFFF;
+        }
+
+        tr:nth-child(even) {
+            background-color: #333;
+        }
+
+        tr:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Completed Requests</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Request ID</th>
+                <th>User</th>
+                <th>Requested Date</th>
+                <th>Description</th>
+                <th>Request Type</th>
+                <th>Unit Price</th> 
+                <th>Quantity</th>  
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in completed_requests %}
+                <tr>
+                    <td>{{ request.Id }}</td>
+                    <td>{{ request.name }}</td>
+                    <td>{{ request.Requested_Date }}</td>
+                    <td>{{ request.Description }}</td>
+                    <td>{{ request.Request_Type }}</td>
+                    <td>{{ request.Unit_Price }}</td>  
+                    <td>{{ request.Quantity }}</td>  
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
